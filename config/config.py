@@ -29,7 +29,7 @@ import yaml
 
 from tools.file_utils import read_yaml, save_yaml
 
-app_title = "AI搞钱工具"
+app_title = "app_title"
 
 local_audio_tts_providers = ['chatTTS', 'GPTSoVITS', 'CosyVoice']
 local_audio_recognition_providers = ['fasterwhisper', 'sensevoice']
@@ -58,7 +58,7 @@ CosyVoice_voice = {
 }
 
 audio_types = {'remote': "云服务", 'local': "本地模型"}
-languages = {'zh-CN': "简体中文", 'en': "english", 'zh-TW': "繁體中文"}
+languages = {'zh-CN': "简体中文", 'en': "english", 'en-US': "English (US)", 'zh-TW': "繁體中文"}
 audio_languages = {'zh-CN': "中文", 'en-US': "english"}
 audio_voices_tencent = {
     "zh-CN": {

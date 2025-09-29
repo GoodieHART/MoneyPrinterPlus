@@ -64,7 +64,7 @@ def delete_scene_for_mix(video_scene_container):
 
 def add_more_scene_for_mix(video_scene_container):
     if 'scene_number' in st.session_state:
-        # 最多5个场景
+        # Maximum 5 scenes
         if st.session_state['scene_number'] < 4:
             st.session_state['scene_number'] = st.session_state['scene_number'] + 1
         else:
@@ -98,8 +98,8 @@ def generate_video_for_mix(video_generator):
 common_ui()
 
 st.markdown(f"<h1 style='text-align: center; font-weight:bold; font-family:comic sans ms; padding-top: 0rem;'> \
-            {app_title}</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center;padding-top: 0rem;'>视频批量混剪工具</h2>", unsafe_allow_html=True)
+            {tr(app_title)}</h1>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='text-align: center;padding-top: 0rem;'>{tr('Video Batch Mix Tool')}</h2>", unsafe_allow_html=True)
 
 # 场景设置
 mix_video_container = st.container(border=True)
@@ -303,7 +303,7 @@ with video_container:
     st.subheader(tr("Video Config"))
     llm_columns = st.columns(3)
     with llm_columns[0]:
-        layout_options = {"portrait": "竖屏", "landscape": "横屏", "square": "方形"}
+        layout_options = {"portrait": tr("Portrait"), "landscape": tr("Landscape"), "square": tr("Square")}
         st.selectbox(label=tr("video layout"), key="video_layout", options=layout_options,
                      format_func=lambda x: layout_options[x])
     with llm_columns[1]:

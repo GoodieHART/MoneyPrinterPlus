@@ -24,6 +24,7 @@
 # 加载JSON翻译文件
 import json
 import os
+from config.config import my_config
 
 # 获取当前脚本的绝对路径
 script_path = os.path.abspath(__file__)
@@ -33,8 +34,7 @@ script_path = os.path.abspath(__file__)
 # 脚本所在的目录
 script_dir = os.path.dirname(script_path)
 
-LANG = 'zh-CN'
-
+LANG = my_config.get('ui', {}).get('language', 'zh-CN')
 default_file_path = os.path.join(script_dir, "../locales", 'zh-CN.json')
 
 
