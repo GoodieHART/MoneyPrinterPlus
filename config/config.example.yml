@@ -57,6 +57,10 @@ llm:
     api_key: YOUR_API_KEY
     secret_key: YOUR_SK_KEY
     model_name: ERNIE-Bot-turbo
+  OpenRouter:
+    api_key: YOUR_API_KEY
+    base_url: https://openrouter.ai/api/v1
+    model_name: openrouter-model
   provider: Moonshot
 resource:
   pexels:

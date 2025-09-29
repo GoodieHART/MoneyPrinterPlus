@@ -1,24 +1,119 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# IDE/project files
 .idea/
+.vscode/
+
+# Config files (non-example)
 config/sceneconfig.yml
 config/sceneconfig_linux.yml
 config/config.yml
 config/config-back.yml
 config/session.yml
+
+# Database and temp
 *.db
-temp/*
-hunjian_main.py
+temp/
+
+# Python virtual environments
+venv/
+ENV/
+env/
+.env
+.env.*
+
+# Build, dist, packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+MANIFEST
+
+# Test/coverage
+.tox/
+.nox/
+.coverage*
+.cache
+.pytest_cache/
+.hypothesis/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Mypy, Pyre, Pytype
+.mypy_cache/
+.pyre/
+.pytype/
+.dmypy.json
+
+# Cython debug
+cython_debug/
+
+# OS generated
 .DS_Store
+Thumbs.db
 */.DS_Store
-work/*
-final/*
-resource/*
-venv
-=2.13.3
+
+# Logs
+*.log
+setup/*.log
+docker/*.log
+docker/tmp/
+
+# Node/batch
+node.sh
+*.bat
+
+# Local data/output
+work/
+final/
+resource/
 last_published_cn.txt
+
+# Audio/Video/Font/Resource outputs
+*.mp3
+*.mp4
+*.avi
+*.mov
+*.flv
+*.mkv
+*.wav
+*.aac
+*.ttc
+*.ttf
+*.otf
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+
+# Ignore ripgrep download folders
+download-ripgrep*/
+
+# Ignore seed files
+chattts/*.pt
+
+# Ignore README and docs outputs
+resource/README
+docs/*/README.md
+
+# Ignore publisher, hunjian, sensevoice, fasterwhisper outputs
 fasterwhisper/*
 sensevoice/*
-.DS_Store
+hunjian_main.py
 chromedriver/*
 chromedriver-mac-arm64/
+
+# Allow README
 !README.md
