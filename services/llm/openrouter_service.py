@@ -48,3 +48,14 @@ class OpenRouterService(MyLLMService):
         except Exception as e:
             print(f"Failed to fetch models from OpenRouter: {e}")
             return []
+
+def main():
+    topic = "AI"
+    # OpenRouterService
+    service = OpenRouterService()
+    description = service.generate_content(topic, service.topic_prompt_template)
+    print(f"\nGenerated video content description:\n{description}")
+
+
+if __name__ == "__main__":
+    main()
