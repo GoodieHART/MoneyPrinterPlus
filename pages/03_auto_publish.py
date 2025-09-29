@@ -266,8 +266,8 @@ def start_publish_video():
 common_ui()
 
 st.markdown(f"<h1 style='text-align: center; font-weight:bold; font-family:comic sans ms; padding-top: 0rem;'> \
-            {app_title}</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center;padding-top: 0rem;'>视频批量自动发布工具</h2>", unsafe_allow_html=True)
+            {tr(app_title)}</h1>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='text-align: center;padding-top: 0rem;'>{tr('Video Batch Auto-Publish Tool')}</h2>", unsafe_allow_html=True)
 
 # 选择要发布的视频目录
 video_container = st.container(border=True)

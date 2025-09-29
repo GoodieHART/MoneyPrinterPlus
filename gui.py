@@ -34,8 +34,8 @@ delete_first_visit_session_state("all_first_visit")
 common_ui()
 
 st.markdown(f"<h1 style='text-align: center; font-weight:bold; font-family:comic sans ms; padding-top: 0rem;'> \
-            {app_title}</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center;padding-top: 0rem;'>基本配置信息</h2>", unsafe_allow_html=True)
+            {tr(app_title)}</h1>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='text-align: center;padding-top: 0rem;'>{tr('Basic Configuration Information')}</h2>", unsafe_allow_html=True)
 
 if 'ui_language' not in st.session_state:
     st.session_state['ui_language'] = 'zh-CN - 简体中文'
@@ -311,7 +311,7 @@ with audio_container:
                                                         key='local_audio_recognition_provider',
                                                         on_change=set_local_audio_recognition_provider)
         if selected_local_audio_recognition_provider == 'sensevoice':
-            st.info(tr("⚠️参考项目sensevoice文件夹中的README.md，下载sherpa-onnx-sense-voice相关模型"))  # 添加帮助信息
+            st.info(tr("sensevoice_readme_warning"))  # 添加帮助信息
 
         if selected_local_audio_recognition_provider == 'fasterwhisper':                                    
             recognition_columns = st.columns(3)
@@ -453,7 +453,7 @@ with (llm_container):
     # 设置llm的值：
     with st.expander(llm_provider, expanded=True):
         tips = f"""
-               ##### {llm_provider} 配置信息
+               ##### {llm_provider} {tr('Configuration Information')}
                """
         st.info(tips)
         if llm_provider != 'Ollama':

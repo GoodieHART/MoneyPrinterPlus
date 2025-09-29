@@ -99,8 +99,8 @@ def generate_video(video_generator):
 
 
 st.markdown(f"<h1 style='text-align: center; font-weight:bold; font-family:comic sans ms; padding-top: 0rem;'> \
-            {app_title}</h1>", unsafe_allow_html=True)
-st.markdown("<h2 style='text-align: center;padding-top: 0rem;'>自动短视频生成器</h2>", unsafe_allow_html=True)
+            {tr(app_title)}</h1>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='text-align: center;padding-top: 0rem;'>{tr('Automatic Short Video Generator')}</h2>", unsafe_allow_html=True)
 
 # LLM区域
 llm_container = st.container(border=True)
@@ -109,7 +109,7 @@ with llm_container:
     st.info(tr("Please input video subject, then click the generate button to generate the video content"))
     st.text_input(label=tr("Video Subject"), placeholder=tr("Please input video subject"), key="video_subject")
     llm_columns = st.columns(3)
-    video_length_options = {"60": "60字以内", "120": "120字以内", "300": "300字以内", "600": "600字以内"}
+    video_length_options = {"60": tr("Under 60 characters"), "120": tr("Under 120 characters"), "300": tr("Under 300 characters"), "600": tr("Under 600 characters")}
     # video_length_options = {"60": "60字以内", "120": "120字以内", "300": "300字以内"}
     with llm_columns[0]:
         st.selectbox(label=tr("Video content language"), options=languages, format_func=lambda x: languages.get(x),
@@ -338,7 +338,7 @@ with video_container:
     st.subheader(tr("Video Config"))
     llm_columns = st.columns(3)
     with llm_columns[0]:
-        layout_options = {"portrait": "竖屏", "landscape": "横屏", "square": "方形"}
+        layout_options = {"portrait": tr("Portrait"), "landscape": tr("Landscape"), "square": tr("Square")}
         st.selectbox(label=tr("video layout"), key="video_layout", options=layout_options,
                      format_func=lambda x: layout_options[x])
     with llm_columns[1]:
