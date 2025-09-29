@@ -28,6 +28,7 @@ from services.llm.deepseek_service import MyDeepSeekService
 from services.llm.kimi_service import MyKimiService
 from services.llm.ollama_service import OllamaService
 from services.llm.openai_service import MyOpenAIService
+from services.llm.openrouter_service import OpenRouterService
 from services.llm.tongyi_service import MyTongyiService
 
 
@@ -48,3 +49,5 @@ def get_llm_provider(llm_provider):
         return MyDeepSeekService()
     if llm_provider == "Ollama":
         return OllamaService()
+    if llm_provider == "OpenRouter":
+        return OpenRouterService()
