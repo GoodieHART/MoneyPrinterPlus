@@ -35,6 +35,7 @@ from services.publisher.douyin_publisher import douyin_publisher
 from services.publisher.kuaishou_publisher import kuaishou_publisher
 from services.publisher.shipinhao_publisher import shipinhao_publisher
 from services.publisher.bilibili_publisher import bilibili_publisher
+from services.publisher.youtube_publisher import youtube_publisher
 from tools.file_utils import write_to_file, list_files, read_head
 from tools.utils import get_must_session_option
 
@@ -45,6 +46,7 @@ all_sites = ['xiaohongshu',
              'kuaishou',
              'shipinhao',
              'bilibili',
+             'youtube',
              ]
 
 
@@ -83,6 +85,9 @@ def publish_file():
         
     if st.session_state.get("video_publish_enable_bilibili"):
         publish_to_platform('bilibili', driver, video_file, text_file)
+
+    if st.session_state.get("video_publish_enable_youtube"):
+        publish_to_platform('youtube', driver, video_file, text_file)
     
 
 def publish_all():
@@ -128,12 +133,13 @@ def publish_all():
 
         while True:
             print("选择你要发布的平台:\n")
-            print("1. 全部(小红书,抖音,快手,视频号,B站)")
+            print("1. 全部(小红书,抖音,快手,视频号,B站,YouTube)")
             print("2. 小红书")
             print("3. 抖音")
             print("4. 快手")
             print("5. 视频号")
             print("6. B站")
+            print("7. YouTube")
             print("0. 退出")
 
             choice = input("\n请选择: ")
@@ -145,6 +151,7 @@ def publish_all():
                     publish_to_platform('kuaishou', driver, file_path, text_path)
                     publish_to_platform('shipinhao', driver, file_path, text_path)
                     publish_to_platform('bilibili', driver, file_path, text_path)
+                    publish_to_platform('youtube', driver, file_path, text_path)
                 elif choice == "2":
                     publish_to_platform('xiaohongshu', driver, file_path, text_path)
                 elif choice == "3":
@@ -157,6 +164,8 @@ def publish_all():
                     publish_to_platform('shipinhao', driver, file_path, text_path)
                 elif choice == "6":
                     publish_to_platform('bilibili', driver, file_path, text_path)
+                elif choice == "7":
+                    publish_to_platform('youtube', driver, file_path, text_path)
                 else:
                     break
             if choice == "0":
