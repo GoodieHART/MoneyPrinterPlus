@@ -104,12 +104,7 @@ download-ripgrep*/
 # Ignore seed files
 chattts/*.pt
 
-# Ignore README and docs outputs
-resource/README
-docs/*/README.md
-
 # Ignore publisher, hunjian, sensevoice, fasterwhisper outputs
-fasterwhisper/*
 sensevoice/*
 hunjian_main.py
 chromedriver/*
