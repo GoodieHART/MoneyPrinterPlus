@@ -248,6 +248,21 @@ def set_collection_name(my_type, state_key):
     my_config['publisher'][my_type]['collection'] = common_collection
     save_config()
 
+def get_privacy_status(my_type):
+    test_config(my_config, "publisher", my_type)
+    if 'privacy_status' not in my_config['publisher'][my_type]:
+        my_config['publisher'][my_type]['privacy_status'] = "PRIVATE"
+        save_config()
+        return "PRIVATE"
+    else:
+        return my_config['publisher'][my_type]['privacy_status']
+
+def set_privacy_status(my_type, state_key):
+    common_status = st.session_state.get(state_key)
+    test_config(my_config, "publisher", my_type)
+    my_config['publisher'][my_type]['privacy_status'] = common_status
+    save_config()
+
 
 def test_publish_video():
     save_session_state_to_yaml()
@@ -437,6 +452,26 @@ with video_config_container:
         st.text_input(label=tr("Section Level2"), key="video_publish_bilibili_section_level2",
                       value=get_bilibili_value('section', 'level2'), on_change=set_bilibili_value,
                       args=('section', 'level2', 'video_publish_bilibili_section_level2'))
+
+    st.subheader(tr("YouTube Config"))
+    st.checkbox(label=tr("Enable YouTube"), key="video_publish_enable_youtube",
+                value=get_enable('youtube'), on_change=set_enable,
+                args=('youtube', 'video_publish_enable_youtube'))
+    if not st.session_state.get("video_publish_use_common_config"):
+        st_columns = st.columns(3)
+        with st_columns[0]:
+            st.text_input(label=tr("Title Prefix"), key="video_publish_youtube_title_prefix",
+                          value=get_title_prefix('youtube'), on_change=set_title_prefix,
+                          args=('youtube', 'video_publish_youtube_title_prefix'))
+        with st_columns[1]:
+            st.text_input(label=tr("Tags"), key="video_publish_youtube_tags",
+                          value=get_tags('youtube'), on_change=set_tags,
+                          args=('youtube', 'video_publish_youtube_tags'))
+        with st_columns[2]:
+            st.selectbox(label=tr("Privacy Status"), key="video_publish_youtube_privacy_status",
+                         options=["PRIVATE", "UNLISTED", "PUBLIC"],
+                         index=["PRIVATE", "UNLISTED", "PUBLIC"].index(get_privacy_status('youtube')),
+                         on_change=set_privacy_status, args=('youtube', 'video_publish_youtube_privacy_status'))
 
 st.warning(tr("Click the test button, one new page will be opened, if not, that means your config has some error."))
 st.button(label=tr("Test Publish"), type="primary", on_click=test_publish_video)
