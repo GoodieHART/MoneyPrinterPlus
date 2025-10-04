@@ -24,3 +24,4 @@ faster-whisper==1.0.3
 requests
 aiohttp
 sherpa-onnx
+fastapi
