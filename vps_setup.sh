@@ -10,7 +10,7 @@ sudo apt-get upgrade -y
 
 # 2. Install ffmpeg
 echo "Installing ffmpeg..."
-sudo apt-get install -y ffmpeg
+sudo apt-get install -y ffmpeg build-essential
 
 # 3. Install nodejs 20
 echo "Installing nodejs 20..."
@@ -28,7 +28,18 @@ sudo npm install -g @google/gemini-cli
 # 5. Install chattts
 echo "Installing chattts..."
 git clone https://github.com/2noise/ChatTTS
-(cd ChatTTS && pip install --upgrade -r requirements.txt)
+mv ChatTTS chattts/
+(cd chattts/ChatTTS && pip install --upgrade -r requirements.txt)
+
+# 7. Download chattts models
+echo "Downloading chattts models..."
+wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/DVAE.pt
+wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/DVAE_full.pt
+wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/Decoder.pt
+wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/GPT.pt
+wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/Vocos.pt
+wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/spk_stat.pt
+wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/tokenizer.pt
 
 # 6. Download faster-whisper model
 echo "Downloading faster-whisper model..."
