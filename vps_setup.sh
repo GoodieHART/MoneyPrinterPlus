@@ -28,11 +28,15 @@ sudo npm install -g @google/gemini-cli
 
 # 5. Install chattts
 echo "Installing chattts..."
-rm -rf ChatTTS
-rm -rf chattts/ChatTTS
-git clone https://github.com/2noise/ChatTTS
-mv ChatTTS chattts/
-(cd chattts/ChatTTS && pip install --upgrade -r requirements.txt)
+if [ ! -d "chattts/ChatTTS" ]; then
+  echo "ChatTTS directory not found, cloning repository..."
+  rm -rf ChatTTS
+  git clone https://github.com/2noise/ChatTTS
+  mv ChatTTS chattts/
+  (cd chattts/ChatTTS && pip install --upgrade -r requirements.txt)
+else
+  echo "ChatTTS directory already exists, skipping clone and install."
+fi
 
 # 7. Download chattts models
 echo "Downloading chattts models..."
