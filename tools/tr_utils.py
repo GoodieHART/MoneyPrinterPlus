@@ -34,7 +34,6 @@ script_path = os.path.abspath(__file__)
 # 脚本所在的目录
 script_dir = os.path.dirname(script_path)
 
-LANG = my_config.get('ui', {}).get('language', 'zh-CN')
 default_file_path = os.path.join(script_dir, "../locales", 'zh-CN.json')
 
 
@@ -50,8 +49,9 @@ def load_translations(lang):
 
 
 # 获取翻译
-def tr(key, lang=LANG):
-    translations = load_translations(lang)
+def tr(key):
+    current_lang = my_config.get('ui', {}).get('language', 'zh-CN')
+    translations = load_translations(current_lang)
     return translations.get(key, key)  # 如果找不到翻译，就返回原字符串
 
 def main():
