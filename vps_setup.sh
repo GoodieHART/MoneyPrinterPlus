@@ -33,7 +33,7 @@ if [ ! -d "chattts/ChatTTS" ]; then
   rm -rf ChatTTS
   git clone https://github.com/2noise/ChatTTS
   mv ChatTTS chattts/
-  (cd chattts/ChatTTS && pip install --upgrade -r requirements.txt)
+  (cd chattts/ChatTTS && pip install --upgrade -r requirements.txt && fastapi dev examples/api/main.py --host 0.0.0.0 --port 8000)
 else
   echo "ChatTTS directory already exists, skipping clone and install."
 fi
