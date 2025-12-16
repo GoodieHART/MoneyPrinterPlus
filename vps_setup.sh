@@ -10,7 +10,7 @@ sudo apt-get upgrade -y
 
 # 2. Install ffmpeg
 echo "Installing ffmpeg..."
-sudo apt-get install -y ffmpeg wget clang build-essential libgtk-3-dev libglib2.0-dev \
+sudo apt-get install -y ffmpeg wget clang build-essential libgtk-3-dev portaudio19-dev libglib2.0-dev \
 libjpeg-dev libpng-dev libtiff-dev libnotify-dev libwebkit2gtk-4.0-dev \
 libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
 libnotify-dev libjpeg-dev libtiff-dev libwebp-dev python3-dev
