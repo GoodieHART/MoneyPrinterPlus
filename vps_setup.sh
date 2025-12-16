@@ -10,21 +10,10 @@ sudo apt-get upgrade -y
 
 # 2. Install ffmpeg
 echo "Installing ffmpeg..."
-sudo apt-get install -y ffmpeg build-essential wget clang
-
-# 3. Install nodejs 20
-echo "Installing nodejs 20..."
-sudo apt-get install -y ca-certificates curl gnupg
-sudo mkdir -p /etc/apt/keyrings
-sudo rm -f /etc/apt/keyrings/nodesource.gpg
-curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-sudo apt-get update
-sudo apt-get install nodejs -y
-
-# 4. Install gemini cli
-echo "Installing gemini cli..."
-sudo npm install -g @google/gemini-cli
+sudo apt-get install -y ffmpeg wget clang build-essential libgtk-3-dev libglib2.0-dev \
+libjpeg-dev libpng-dev libtiff-dev libnotify-dev libwebkit2gtk-4.0-dev \
+libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
+libnotify-dev libjpeg-dev libtiff-dev libwebp-dev python3-dev
 
 # 5. Install chattts
 echo "Installing chattts..."
