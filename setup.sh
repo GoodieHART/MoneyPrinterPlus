@@ -1,93 +1,29 @@
 #!/usr/bin/env bash
 
+# Consolidated MoneyPrinterPlus Setup Script
+# Supports modes: --full (default), --vps, --python-only, --help
+
 # Function to display help information
 display_help() {
   cat <<EOF
-MoneyPrinterPlus Installation Script for POSIX operating systems.
+MoneyPrinterPlus Consolidated Setup Script.
 
+This script sets up the environment with different modes.
+
+Modes:
+  --full        (default) Install system dependencies, set up Python environment, download models, and start the application.
+  --vps         Install system dependencies, set up Python environment, and download models (no app start, for servers).
+  --python-only Install only Python environment and dependencies.
+  --help        Show this help information.
+
+Examples:
+  ./setup.sh              # Full setup
+  ./setup.sh --vps        # VPS setup
+  ./setup.sh --python-only # Python only
 EOF
 }
 
-# Helper function to check if variable is set and non-empty
-env_var_exists() {
-  if [[ -n "${!1}" ]]; then
-    return 0
-  else
-    return 1
-  fi
-}
-
-
-# Directory of the script
-SCRIPT_DIR="$(cd -- $(dirname -- "$0") && pwd)"
-
-DIR="$(pwd)"
-
-# Function to install Python dependencies
-install_python_dependencies() {
-  local TEMP_REQUIREMENTS_FILE
-
-  # Switch to local virtual env
-  echo "Switching to virtual Python environment."
-  echo "this will take some time,please wait....."
-  if ! inDocker; then
-    if command -v python3.10 >/dev/null; then
-      echo python3.10 -m venv "$DIR/venv"
-      python3.10 -m venv "$DIR/venv"
-    elif command -v python3 >/dev/null; then
-      echo python3 -m venv "$DIR/venv"
-      python3 -m venv "$DIR/venv"
-    else
-      echo "Valid python3 or python3.10 binary not found."
-      echo "Cannot proceed with the python steps."
-      return 1
-    fi
-
-    # Activate the virtual environment
-    echo "Activate the virtual environment..."
-    source "$DIR/venv/bin/activate"
-  fi
-
-  echo "setup python dependencies..."
-  python -m pip install --require-virtualenv --no-input -q -q  setuptools
-  case "$OSTYPE" in
-    "lin"*)
-        python "$SCRIPT_DIR/setup/setup_linux.py" --platform-requirements-file=requirements.txt
-      ;;
-    "darwin"*)
-      if [[ "$(uname -m)" == "arm64" ]]; then
-        python "$SCRIPT_DIR/setup/setup_linux.py" --platform-requirements-file=requirements.txt
-      else
-        python "$SCRIPT_DIR/setup/setup_linux.py" --platform-requirements-file=requirements.txt
-      fi
-      ;;
-  esac
-
-  if [ -n "$VIRTUAL_ENV" ] && ! inDocker; then
-    if command -v deactivate >/dev/null; then
-      echo "Exiting Python virtual environment."
-      deactivate
-    else
-      echo "deactivate command not found. Could still be in the Python virtual environment."
-    fi
-  fi
-}
-
-# This must be set after the getopts loop to account for $DIR changes.
-PARENT_DIR="$(dirname "${DIR}")"
-VENV_DIR="$DIR/venv"
-
-if [ -w "$PARENT_DIR" ] && [ ! -d "$DIR" ]; then
-  echo "Creating install folder ${DIR}."
-  mkdir "$DIR"
-fi
-
-if [ ! -w "$DIR" ]; then
-  echo "We cannot write to ${DIR}."
-  echo "Please ensure the install directory is accurate and you have the correct permissions."
-  exit 1
-fi
-
+# Detect if running in Docker or other containers
 isContainerOrPod() {
   local cgroup=/proc/1/cgroup
   test -f $cgroup && (grep -qE ':cpuset:/(docker|kubepods)' $cgroup || grep -q ':/docker/' $cgroup)
@@ -110,25 +46,132 @@ inDocker() {
   fi
 }
 
-# Start OS-specific detection and work
-if [[ "$OSTYPE" == "lin"* ]]; then
+# Install system dependencies (for Linux)
+install_system_dependencies() {
+  echo "Installing system dependencies..."
+  sudo apt-get update -y
+  sudo apt-get upgrade -y
+  sudo apt-get install -y ffmpeg wget clang build-essential libgtk-3-dev portaudio19-dev libglib2.0-dev \
+    libjpeg-dev libpng-dev libtiff-dev libnotify-dev libwebkit2gtk-4.0-dev \
+    libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev python3-dev
+}
 
-  install_python_dependencies
+# Set up Python environment
+setup_python_environment() {
+  local DIR="$(pwd)"
+  echo "Setting up Python environment..."
 
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-  # The initial setup script to prep the environment on macOS
-  # xformers has been omitted as that is for Nvidia GPUs only
-
-  if ! install_python_dependencies; then
-    echo "You may need to install Python. The command for this is brew install python@3.10."
+  if ! inDocker; then
+    if command -v python3.10 >/dev/null; then
+      echo "Using python3.10 to create virtual environment."
+      python3.10 -m venv "$DIR/venv"
+    elif command -v python3 >/dev/null; then
+      echo "Using default python3 to create virtual environment."
+      python3 -m venv "$DIR/venv"
+    else
+      echo "Valid python3 binary not found. Exiting."
+      exit 1
+    fi
+    source "$DIR/venv/bin/activate"
+  else
+    echo "Running inside container. Skipping virtual environment setup."
   fi
 
-  echo -e "Setup finished! Run sh start.sh to start."
-elif [[ "$OSTYPE" == "cygwin" ]]; then
-  # Cygwin is a standalone suite of Linux utilities on Windows
-  echo "This hasn't been validated on cygwin yet."
-elif [[ "$OSTYPE" == "msys" ]]; then
-  # MinGW has the msys environment which is a standalone suite of Linux utilities on Windows
-  # "git bash" on Windows may also be detected as msys.
-  echo "This hasn't been validated in msys 'mingw' on Windows yet."
-fi
+  echo "Installing Python dependencies..."
+  python -m pip install --require-virtualenv --no-input -q -q setuptools
+  python ./setup/setup_linux.py --platform-requirements-file=requirements.txt
+}
+
+# Download models if missing
+download_models() {
+  echo "Downloading necessary models..."
+  if [ ! -d "fasterwhisper/tiny" ]; then
+    git clone https://huggingface.co/Systran/faster-whisper-tiny fasterwhisper/tiny
+  else
+    echo "Model already downloaded. Skipping."
+  fi
+}
+
+# Start the Streamlit application
+start_application() {
+  echo "Starting the application..."
+  local SCRIPT_DIR="$(cd -- $(dirname -- "$0") && pwd)"
+
+  if [ -d "$SCRIPT_DIR/venv" ]; then
+    source "$SCRIPT_DIR/venv/bin/activate"
+  else
+    echo "venv folder does not exist. Skipping virtual environment activation."
+  fi
+
+  streamlit run gui.py
+}
+
+# Main logic based on mode
+main() {
+  local MODE="full"
+
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --full)
+        MODE="full"
+        shift
+        ;;
+      --vps)
+        MODE="vps"
+        shift
+        ;;
+      --python-only)
+        MODE="python-only"
+        shift
+        ;;
+      --help)
+        display_help
+        exit 0
+        ;;
+      *)
+        echo "Invalid option: $1"
+        display_help
+        exit 1
+        ;;
+    esac
+  done
+
+  echo "Starting setup in mode: $MODE"
+
+  case "$OSTYPE" in
+    "linux"*)
+      if [[ "$MODE" == "full" || "$MODE" == "vps" ]]; then
+        install_system_dependencies
+      fi
+      setup_python_environment
+      if [[ "$MODE" == "full" || "$MODE" == "vps" ]]; then
+        download_models
+      fi
+      if [[ "$MODE" == "full" ]]; then
+        start_application
+      fi
+      ;;
+    "darwin"*)
+      echo "Detected macOS. Please ensure Homebrew is installed for dependency management."
+      setup_python_environment
+      if [[ "$MODE" == "full" || "$MODE" == "vps" ]]; then
+        download_models
+      fi
+      if [[ "$MODE" == "full" ]]; then
+        start_application
+      fi
+      ;;
+    *)
+      echo "Unsupported OS: $OSTYPE"
+      exit 1
+      ;;
+  esac
+
+  if [[ "$MODE" != "full" ]]; then
+    echo "Setup completed in $MODE mode."
+  fi
+}
+
+# Run main function with all arguments
+main "$@"
