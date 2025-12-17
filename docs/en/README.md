@@ -227,7 +227,7 @@ Usage Introduction:
 
 ## System Requirements
 
-- Python 3.10+
+- Python==3.10
 - ffmpeg 6.0+
 - LLM api key
 - Azure voice service (https://speech.microsoft.com/portal)
@@ -240,8 +240,9 @@ Usage Introduction:
 
 ### Prerequisites
 
-1. Make sure you have a running environment with Python 3.10+. If you are using Windows, ensure that the Python path is added to the PATH.
-2. Make sure you have a running environment with ffmpeg 6.0+. If you are using Windows, ensure that the ffmpeg path is added to the PATH. If ffmpeg is not installed, please install the corresponding version from https://ffmpeg.org/.
+1. Make sure you have a running environment with Python==3.10. If you are using Windows, ensure that the Python path is added to the PATH.
+2. Usage with python "3.12" made installing "pynini 2.1.5" a nightmare as it constantly kept throwing "Cython" not found
+3. Make sure you have a running environment with ffmpeg 6.0+. If you are using Windows, ensure that the ffmpeg path is added to the PATH. If ffmpeg is not installed, please install the corresponding version from https://ffmpeg.org/.
 
 ### Manual Installation
 
