@@ -19,6 +19,7 @@ First, you need to set up `chatTTS` to run as a separate local server.
     ```bash
     cd ChatTTS
     pip install --upgrade -r requirements.txt
+    pip install "fastapi[standard]"
     ```
 
 3.  **Start the API Server:**
