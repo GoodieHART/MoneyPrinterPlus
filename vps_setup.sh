@@ -15,28 +15,6 @@ libjpeg-dev libpng-dev libtiff-dev libnotify-dev libwebkit2gtk-4.0-dev \
 libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev \
 libnotify-dev libjpeg-dev libtiff-dev libwebp-dev python3-dev
 
-# 5. Install chattts
-echo "Installing chattts..."
-if [ ! -d "chattts/ChatTTS" ]; then
-  echo "ChatTTS directory not found, cloning repository..."
-  rm -rf ChatTTS
-  git clone https://github.com/2noise/ChatTTS
-  mv ChatTTS chattts/
-  (cd chattts/ChatTTS && pip install --upgrade -r requirements.txt && fastapi dev examples/api/main.py --host 0.0.0.0 --port 8000)
-else
-  echo "ChatTTS directory already exists, skipping clone and install."
-fi
-
-# 7. Download chattts models
-echo "Downloading chattts models..."
-wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/DVAE.pt
-wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/DVAE_full.pt
-wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/Decoder.pt
-wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/GPT.pt
-wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/Vocos.pt
-wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/spk_stat.pt
-wget -P chattts/ https://huggingface.co/2Noise/ChatTTS/resolve/main/asset/tokenizer.pt
-
 # 6. Download faster-whisper model
 echo "Downloading faster-whisper model..."
 git clone https://huggingface.co/Systran/faster-whisper-tiny fasterwhisper/tiny
