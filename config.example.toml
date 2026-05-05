@@ -1,0 +1,44 @@
+# MoneyPrinterTurbo Configuration
+# Copy this file to config.toml and fill in your API keys
+
+[app]
+# Video source: "pexels" or "pixabay"
+video_source = "pexels"
+
+# LLM Provider (openai, deepseek, moonshot, azure, gemini, qwen, ollama)
+llm_provider = "gemini"
+
+# OpenAI Configuration
+openai_api_key = "sk-your-key-here"
+openai_base_url = "https://api.openai.com/v1"
+openai_model = "gpt-4o-mini"
+
+# Alternative: DeepSeek
+# llm_provider = "deepseek"
+# deepseek_api_key = "sk-your-key-here"
+# deepseek_base_url = "https://api.deepseek.com/v1"
+# deepseek_model = "deepseek-chat"
+
+# Gemini Configuration
+gemini_api_key = "YOUR_GEMINI_API_KEY"
+gemini_base_url = "https://generativelanguage.googleapis.com/"
+gemini_model = "gemini-3.1-flash-lite-preview"
+
+# Stock Video API Keys (at least one required)
+pexels_api_keys = ["YOUR_PEXELS_API_KEY"]
+pixabay_api_keys = []
+
+[whisper]
+# Subtitle provider: "edge" (no GPU) or "whisper" (needs GPU)
+subtitle_provider = "edge"
+# whisper_model = "large-v3"
+# whisper_device = "cpu"  # or "cuda" with GPU
+
+[proxy]
+# Optional: HTTP/HTTPS proxy
+# http_proxy = ""
+# https_proxy = ""
+
+[ui]
+language = "en-US"
+# hide_log = false
